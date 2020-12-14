@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Movies TV Shows</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="movies">Movies</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="title">Title</string>
+    <string name="score">0</string>
+    <string name="date">Date</string>
+    <string name="user_score">User Score</string>
+    <string name="genre">Genre</string>
+    <string name="duration">Duration</string>
+    <string name="overview">Overview</string>
+    <string name="cat_movie">movie</string>
+    <string name="favorites">Favorites</string>
+</resources>

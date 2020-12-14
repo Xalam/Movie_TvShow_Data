@@ -1,0 +1,136 @@
+{
+  "tv_shows": [
+    {
+      "id": "t1",
+      "title": "Arrow",
+      "year": "2012",
+      "date": "10/10/2012",
+      "genre": "Crime, Drama, Mystery, Action & Adventure",
+      "duration": "42m",
+      "imagePath": "poster_arrow",
+      "userScore": "65",
+      "description": "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
+      "category": "tv"
+    },
+    {
+      "id": "t2",
+      "title": "Dragon Ball",
+      "year": "1986",
+      "date": "02/26/1986",
+      "genre": "Comedy, Sci-Fi & Fantasy, Animation, Action & Adventure",
+      "duration": "25m",
+      "imagePath": "poster_dragon_ball",
+      "userScore": "80",
+      "description": "Long ago in the mountains, a fighting master known as Gohan discovered a strange boy whom he named Goku. Gohan raised him and trained Goku in martial arts until he died. The young and very strong boy was on his own, but easily managed. Then one day, Goku met a teenage girl named Bulma, whose search for the mystical Dragon Balls brought her to Goku's home. Together, they set off to find all seven and to grant her wish.",
+      "category": "tv"
+    },
+    {
+      "id": "t3",
+      "title": "The Flash",
+      "year": "2014",
+      "date": "10/07/2014",
+      "genre": "Drama, Sci-Fi & Fantasy",
+      "duration": "44m",
+      "imagePath": "poster_flash",
+      "userScore": "76",
+      "description": "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \"meta-human\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash.",
+      "category": "tv"
+    },
+    {
+      "id": "t4",
+      "title": "Gotham",
+      "year": "2014",
+      "date": "09/22/2014",
+      "genre": "Drama, Fantasy, Crime",
+      "duration": "43m",
+      "imagePath": "poster_gotham",
+      "userScore": "74",
+      "description": "Everyone knows the name Commissioner Gordon. He is one of the crime world's greatest foes, a man whose reputation is synonymous with law and order. But what is known of Gordon's story and his rise from rookie detective to Police Commissioner? What did it take to navigate the multiple layers of corruption that secretly ruled Gotham City, the spawning ground of the world's most iconic villains? And what circumstances created them – the larger-than-life personas who would become Catwoman, The Penguin, The Riddler, Two-Face and The Joker?",
+      "category": "tv"
+    },
+    {
+      "id": "t5",
+      "title": "Grey's Anatomy",
+      "year": "2005",
+      "date": "03/27/2005",
+      "genre": "Drama",
+      "duration": "43m",
+      "imagePath": "poster_grey_anatomy",
+      "userScore": "81",
+      "description": "Follows the personal and professional lives of a group of doctors at Seattle’s Grey Sloan Memorial Hospital.",
+      "category": "tv"
+    },
+    {
+      "id": "t6",
+      "title": "Hanna",
+      "year": "2019",
+      "date": "03/28/2019",
+      "genre": "Action & Adventure, Drama",
+      "duration": "50m",
+      "imagePath": "poster_hanna",
+      "userScore": "74",
+      "description": "his thriller and coming-of-age drama follows the journey of an extraordinary young girl as she evades the relentless pursuit of an off-book CIA agent and tries to unearth the truth behind who she is. Based on the 2011 Joe Wright film.",
+      "category": "tv"
+    },
+    {
+      "id": "t7",
+      "title": "Marvel's Iron Fist",
+      "year": "2017",
+      "date": "03/17/2017",
+      "genre": "Action & Adventure, Drama, Sci-Fi & Fantasy",
+      "duration": "55m",
+      "imagePath": "poster_iron_fist",
+      "userScore": "65",
+      "description": "Danny Rand resurfaces 15 years after being presumed dead. Now, with the power of the Iron Fist, he seeks to reclaim his past and fulfill his destiny.",
+      "category": "tv"
+    },
+    {
+      "id": "t8",
+      "title": "Naruto Shippuden",
+      "year": "2007",
+      "date": "02/15/2007",
+      "genre": "Animation, Comedy, Drama",
+      "duration": "25m",
+      "imagePath": "poster_naruto_shipudden",
+      "userScore": "87",
+      "description": "Naruto Shippuuden is the continuation of the original animated TV series Naruto.The story revolves around an older and slightly more matured Uzumaki Naruto and his quest to save his friend Uchiha Sasuke from the grips of the snake-like Shinobi, Orochimaru. After 2 and a half years Naruto finally returns to his village of Konoha, and sets about putting his ambitions to work, though it will not be easy, as He has amassed a few (more dangerous) enemies, in the likes of the shinobi organization; Akatsuki.",
+      "category": "tv"
+    },
+    {
+      "id": "t9",
+      "title": "NCIS",
+      "year": "2003",
+      "date": "09/23/2003",
+      "genre": "Action & Adventure, Crime, Drama",
+      "duration": "45m",
+      "imagePath": "poster_ncis",
+      "userScore": "71",
+      "description": "From murder and espionage to terrorism and stolen submarines, a team of special agents investigates any crime that has a shred of evidence connected to Navy and Marine Corps personnel, regardless of rank or position.",
+      "category": "tv"
+    },
+    {
+      "id": "t10",
+      "title": "Riverdale",
+      "year": "2017",
+      "date": "01/26/2017",
+      "genre": "Drama, Mystery",
+      "duration": "45m",
+      "imagePath": "poster_riverdale",
+      "userScore": "86",
+      "description": "Set in the present, the series offers a bold, subversive take on Archie, Betty, Veronica and their friends, exploring the surreality of small-town life, the darkness and weirdness bubbling beneath Riverdale’s wholesome facade.",
+      "category": "tv"
+    },
+    {
+      "id": "t11",
+      "title": "The Umbrella Academy",
+      "year": "2019",
+      "date": "02/15/2019",
+      "genre": "Action & Adventure, Sci-Fi & Fantasy, Comedy, Drama",
+      "duration": "55m",
+      "imagePath": "poster_the_umbrella",
+      "userScore": "87",
+      "description": "A dysfunctional family of superheroes comes together to solve the mystery of their father's death, the threat of the apocalypse and more.",
+      "category": "tv"
+    }
+  ]
+}
