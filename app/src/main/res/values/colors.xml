@@ -6,4 +6,5 @@
 
     <color name="colorOrangeTransparent">#BCFF9800</color>
     <color name="colorTextTertiary">#EFEFEF</color>
+     <color name="colorLightGrey">#BCBCBC</color>
 </resources>
