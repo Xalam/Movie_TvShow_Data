@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
-import com.xalam.movietvshowrepo.detail.DetailViewModel;
+import com.xalam.movietvshowrepo.ui.detail.DetailViewModel;
 import com.xalam.movietvshowrepo.di.Injection;
-import com.xalam.movietvshowrepo.movie.MovieViewModel;
-import com.xalam.movietvshowrepo.tvshow.TvShowViewModel;
+import com.xalam.movietvshowrepo.ui.movie.MovieViewModel;
+import com.xalam.movietvshowrepo.ui.tvshow.TvShowViewModel;
 
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {

@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.home;
+package com.xalam.movietvshowrepo.ui.favorite;
 
 import android.content.Context;
 
@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.xalam.movietvshowrepo.R;
-import com.xalam.movietvshowrepo.movie.MovieFragment;
-import com.xalam.movietvshowrepo.tvshow.TvShowFragment;
+import com.xalam.movietvshowrepo.ui.movie.MovieFragment;
+import com.xalam.movietvshowrepo.ui.tvshow.TvShowFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -30,9 +30,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new MovieFragment();
+                return new MovieFavoriteFragment();
             case 1:
-                return new TvShowFragment();
+                return new TvShowFavoriteFragment();
             default:
                 return new Fragment();
         }

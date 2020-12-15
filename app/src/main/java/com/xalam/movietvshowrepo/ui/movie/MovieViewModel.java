@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.movie;
+package com.xalam.movietvshowrepo.ui.movie;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

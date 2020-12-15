@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.movie;
+package com.xalam.movietvshowrepo.ui.movie;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,26 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xalam.movietvshowrepo.R;
+import com.xalam.movietvshowrepo.databinding.FragmentMovieBinding;
 import com.xalam.movietvshowrepo.viewmodel.ViewModelFactory;
 
 public class MovieFragment extends Fragment {
-    private RecyclerView rvMovie;
-    private ProgressBar progressBar;
+
+    private FragmentMovieBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        rvMovie = view.findViewById(R.id.rv_movie);
-        progressBar = view.findViewById(R.id.progress_movie);
-
+        binding = FragmentMovieBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -41,21 +34,27 @@ public class MovieFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
-            progressBar.setVisibility(View.VISIBLE);
+            binding.progressMovie.setVisibility(View.VISIBLE);
 
             ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
             MovieViewModel movieViewModel = new ViewModelProvider(this, factory).get(MovieViewModel.class);
 
             MovieAdapter movieAdapter = new MovieAdapter();
             movieViewModel.getMovies().observe(this, movies -> {
-                progressBar.setVisibility(View.GONE);
+                binding.progressMovie.setVisibility(View.GONE);
                 movieAdapter.setListMovies(movies);
                 movieAdapter.notifyDataSetChanged();
             });
 
-            rvMovie.setLayoutManager(new LinearLayoutManager(getActivity()));
-            rvMovie.setHasFixedSize(true);
-            rvMovie.setAdapter(movieAdapter);
+            binding.rvMovie.setLayoutManager(new LinearLayoutManager(getActivity()));
+            binding.rvMovie.setHasFixedSize(true);
+            binding.rvMovie.setAdapter(movieAdapter);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

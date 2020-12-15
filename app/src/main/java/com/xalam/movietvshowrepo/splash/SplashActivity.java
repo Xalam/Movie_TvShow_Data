@@ -8,7 +8,7 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.xalam.movietvshowrepo.R;
-import com.xalam.movietvshowrepo.home.MainActivity;
+import com.xalam.movietvshowrepo.ui.home.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

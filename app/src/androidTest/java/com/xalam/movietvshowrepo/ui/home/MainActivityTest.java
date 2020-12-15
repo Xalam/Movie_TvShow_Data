@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.home;
+package com.xalam.movietvshowrepo.ui.home;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.contrib.RecyclerViewActions;

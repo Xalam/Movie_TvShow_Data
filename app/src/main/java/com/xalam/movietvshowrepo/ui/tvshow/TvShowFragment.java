@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.tvshow;
+package com.xalam.movietvshowrepo.ui.tvshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.movie;
+package com.xalam.movietvshowrepo.ui.movie;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.xalam.movietvshowrepo.R;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
-import com.xalam.movietvshowrepo.detail.DetailActivity;
+import com.xalam.movietvshowrepo.ui.detail.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;

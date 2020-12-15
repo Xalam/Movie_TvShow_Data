@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.tvshow;
+package com.xalam.movietvshowrepo.ui.tvshow;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
