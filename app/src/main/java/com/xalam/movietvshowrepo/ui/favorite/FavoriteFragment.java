@@ -4,13 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xalam.movietvshowrepo.R;
 import com.xalam.movietvshowrepo.databinding.FragmentFavoriteBinding;
 
 public class FavoriteFragment extends Fragment {
@@ -33,5 +31,11 @@ public class FavoriteFragment extends Fragment {
             binding.viewPagerFavorite.setAdapter(sectionsPagerAdapter);
             binding.tabsFavorite.setupWithViewPager(binding.viewPagerFavorite);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

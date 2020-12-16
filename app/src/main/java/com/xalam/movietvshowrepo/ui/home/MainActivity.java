@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
+            getSupportActionBar().hide();
         }
 
         getSupportFragmentManager().beginTransaction().add(R.id.frame_main, fragmentFavorite, "3").hide(fragmentFavorite).commit();
@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 
     @Override
