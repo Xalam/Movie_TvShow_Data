@@ -1,0 +1,34 @@
+package com.xalam.movietvshowrepo.data.source.remote;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+public class ApiResponse<T> {
+
+    @NonNull
+    public final StatusResponse statusResponse;
+
+    @Nullable
+    public final String message;
+
+    @Nullable
+    public final T body;
+
+    public ApiResponse(@NonNull StatusResponse statusResponse, @Nullable T body, @Nullable String message) {
+        this.statusResponse = statusResponse;
+        this.message = message;
+        this.body = body;
+    }
+
+    public static <T> ApiResponse<T> success(@Nullable T body) {
+        return new ApiResponse<>(StatusResponse.SUCCESS, body, null);
+    }
+
+    public static <T> ApiResponse<T> empty(String msg, @Nullable T body) {
+        return new ApiResponse<>(StatusResponse.EMPTY, body, msg);
+    }
+
+    public static <T> ApiResponse<T> error(String msg, @Nullable T body) {
+        return new ApiResponse<>(StatusResponse.ERROR, body, msg);
+    }
+}
