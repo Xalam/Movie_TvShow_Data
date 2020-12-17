@@ -32,7 +32,6 @@ public class TvShowFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
-            binding.progressTvShow.setVisibility(View.VISIBLE);
 
             ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
             TvShowViewModel tvShowViewModel = new ViewModelProvider(this, factory).get(TvShowViewModel.class);

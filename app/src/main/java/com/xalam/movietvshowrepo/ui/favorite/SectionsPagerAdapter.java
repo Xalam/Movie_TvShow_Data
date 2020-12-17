@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.xalam.movietvshowrepo.R;
-import com.xalam.movietvshowrepo.ui.movie.MovieFragment;
-import com.xalam.movietvshowrepo.ui.tvshow.TvShowFragment;
+import com.xalam.movietvshowrepo.ui.favorite.movie.MovieFavoriteFragment;
+import com.xalam.movietvshowrepo.ui.favorite.tvshow.TvShowFavoriteFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

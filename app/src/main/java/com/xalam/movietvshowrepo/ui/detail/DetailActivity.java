@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_CATEGORY = "extra_category";
 
     private ActivityDetailBinding binding;
+    DetailViewModel detailViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         ViewModelFactory factory = ViewModelFactory.getInstance(this);
-        DetailViewModel detailViewModel = new ViewModelProvider(this, factory).get(DetailViewModel.class);
+        detailViewModel = new ViewModelProvider(this, factory).get(DetailViewModel.class);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String contentId = extras.getString(EXTRA_ID);
@@ -54,7 +56,9 @@ public class DetailActivity extends AppCompatActivity {
                                 break;
                             case SUCCESS:
                                 if (moviesEntityResource.data != null) {
+                                    binding.progressDetail.setVisibility(View.GONE);
                                     detailMovie(moviesEntityResource.data);
+                                    observeFavoriteMovie();
                                 }
                                 break;
                             case ERROR:
@@ -74,7 +78,9 @@ public class DetailActivity extends AppCompatActivity {
                                 break;
                             case SUCCESS:
                                 if (tvShowsEntityResource.data != null) {
+                                    binding.progressDetail.setVisibility(View.GONE);
                                     detailTvShow(tvShowsEntityResource.data);
+                                    observeFavoriteTvShow();
                                 }
                                 break;
                             case ERROR:
@@ -85,6 +91,16 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 });
             }
+            binding.btnFavDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (category.equals(getString(R.string.cat_movie))) {
+                        detailViewModel.setMovieFavorite();
+                    } else {
+                        detailViewModel.setTvShowFavorite();
+                    }
+                }
+            });
         }
     }
 
@@ -126,5 +142,65 @@ public class DetailActivity extends AppCompatActivity {
                 .load(tvShowsEntity.getImagePath())
                 .apply(RequestOptions.placeholderOf(R.color.colorTextTertiary).error(R.color.colorTextTertiary))
                 .into(binding.imgBgDetail);
+    }
+
+    private void observeFavoriteMovie() {
+        detailViewModel.movie.observe(this, moviesEntityResource -> {
+            if (moviesEntityResource != null) {
+                switch (moviesEntityResource.status) {
+                    case LOADING:
+                        binding.progressDetail.setVisibility(View.VISIBLE);
+                        break;
+                    case SUCCESS:
+                        if (moviesEntityResource.data != null) {
+                            binding.progressDetail.setVisibility(View.GONE);
+                            boolean state = moviesEntityResource.data.isFavorite();
+                            favoriteStatus(state);
+                        }
+                        break;
+                    case ERROR:
+                        binding.progressDetail.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void observeFavoriteTvShow() {
+        detailViewModel.tvShow.observe(this, tvShowsEntityResource -> {
+            if (tvShowsEntityResource != null) {
+                switch (tvShowsEntityResource.status) {
+                    case LOADING:
+                        binding.progressDetail.setVisibility(View.VISIBLE);
+                        break;
+                    case SUCCESS:
+                        if (tvShowsEntityResource.data != null) {
+                            binding.progressDetail.setVisibility(View.GONE);
+                            boolean state = tvShowsEntityResource.data.isFavorite();
+                            favoriteStatus(state);
+                        }
+                        break;
+                    case ERROR:
+                        binding.progressDetail.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void favoriteStatus(boolean state) {
+        if (state) {
+            binding.btnFavDetail.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star));
+        } else {
+            binding.btnFavDetail.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

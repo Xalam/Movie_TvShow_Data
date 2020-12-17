@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.splash;
+package com.xalam.movietvshowrepo.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;

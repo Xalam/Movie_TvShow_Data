@@ -32,7 +32,6 @@ public class MovieFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
-            binding.progressMovie.setVisibility(View.VISIBLE);
 
             ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
             MovieViewModel movieViewModel = new ViewModelProvider(this, factory).get(MovieViewModel.class);
