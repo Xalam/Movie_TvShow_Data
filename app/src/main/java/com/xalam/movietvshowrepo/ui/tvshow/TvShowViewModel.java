@@ -2,12 +2,11 @@ package com.xalam.movietvshowrepo.ui.tvshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.PagedList;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
 import com.xalam.movietvshowrepo.vo.Resource;
-
-import java.util.List;
 
 public class TvShowViewModel extends ViewModel {
     private ContentRepository contentRepository;
@@ -16,7 +15,7 @@ public class TvShowViewModel extends ViewModel {
         this.contentRepository = contentRepository;
     }
 
-    public LiveData<Resource<List<TVShowsEntity>>> getTvShows() {
+    public LiveData<Resource<PagedList<TVShowsEntity>>> getTvShows() {
         return contentRepository.getAllTvShows();
     }
 }

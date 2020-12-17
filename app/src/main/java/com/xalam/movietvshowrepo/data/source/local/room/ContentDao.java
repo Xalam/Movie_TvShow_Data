@@ -1,6 +1,7 @@
 package com.xalam.movietvshowrepo.data.source.local.room;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,10 +17,10 @@ import java.util.List;
 public interface ContentDao {
 
     @Query("SELECT * FROM movies_entity")
-    LiveData<List<MoviesEntity>> getAllMovies();
+    DataSource.Factory<Integer, MoviesEntity> getAllMovies();
 
     @Query("SELECT * FROM tv_shows_entity")
-    LiveData<List<TVShowsEntity>> getAllTvShows();
+    DataSource.Factory<Integer, TVShowsEntity> getAllTvShows();
 
     @Query("SELECT * FROM movies_entity WHERE movieId = :id")
     LiveData<MoviesEntity> getMoviesId(String id);
@@ -28,10 +29,10 @@ public interface ContentDao {
     LiveData<TVShowsEntity> getTvShowsId(String id);
 
     @Query("SELECT * FROM movies_entity WHERE favorite = 1")
-    LiveData<List<MoviesEntity>> getMoviesFavorite();
+    DataSource.Factory<Integer, MoviesEntity> getMoviesFavorite();
 
     @Query("SELECT * FROM tv_shows_entity WHERE favorite = 1")
-    LiveData<List<TVShowsEntity>> getTvShowsFavorite();
+    DataSource.Factory<Integer, TVShowsEntity> getTvShowsFavorite();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMovies(List<MoviesEntity> moviesEntities);

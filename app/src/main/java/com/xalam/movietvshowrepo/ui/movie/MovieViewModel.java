@@ -2,12 +2,11 @@ package com.xalam.movietvshowrepo.ui.movie;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.PagedList;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
 import com.xalam.movietvshowrepo.vo.Resource;
-
-import java.util.List;
 
 public class MovieViewModel extends ViewModel {
     private ContentRepository contentRepository;
@@ -16,7 +15,7 @@ public class MovieViewModel extends ViewModel {
         this.contentRepository = contentRepository;
     }
 
-    public LiveData<Resource<List<MoviesEntity>>> getMovies() {
+    public LiveData<Resource<PagedList<MoviesEntity>>> getMovies() {
         return contentRepository.getAllMovies();
     }
 }

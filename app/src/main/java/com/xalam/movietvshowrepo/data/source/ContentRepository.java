@@ -2,7 +2,8 @@ package com.xalam.movietvshowrepo.data.source;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.xalam.movietvshowrepo.data.source.local.LocalDataSources;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
@@ -41,16 +42,21 @@ public class ContentRepository implements ContentDataSource {
     }
 
     @Override
-    public LiveData<Resource<List<MoviesEntity>>> getAllMovies() {
-        return new NetworkBoundResource<List<MoviesEntity>, List<MoviesResponse>>(appExecutors) {
+    public LiveData<Resource<PagedList<MoviesEntity>>> getAllMovies() {
+        return new NetworkBoundResource<PagedList<MoviesEntity>, List<MoviesResponse>>(appExecutors) {
 
             @Override
-            protected LiveData<List<MoviesEntity>> loadFromDatabase() {
-                return localDataSources.getAllMovies();
+            protected LiveData<PagedList<MoviesEntity>> loadFromDatabase() {
+                PagedList.Config config = new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(4)
+                        .setPageSize(4)
+                        .build();
+                return new LivePagedListBuilder<>(localDataSources.getAllMovies(), config).build();
             }
 
             @Override
-            protected boolean shouldFetch(List<MoviesEntity> data) {
+            protected boolean shouldFetch(PagedList<MoviesEntity> data) {
                 return (data == null) || (data.size() == 0);
             }
 
@@ -83,16 +89,22 @@ public class ContentRepository implements ContentDataSource {
     }
 
     @Override
-    public LiveData<Resource<List<TVShowsEntity>>> getAllTvShows() {
-        return new NetworkBoundResource<List<TVShowsEntity>, List<TvShowsResponse>>(appExecutors) {
+    public LiveData<Resource<PagedList<TVShowsEntity>>> getAllTvShows() {
+        return new NetworkBoundResource<PagedList<TVShowsEntity>, List<TvShowsResponse>>(appExecutors) {
 
             @Override
-            protected LiveData<List<TVShowsEntity>> loadFromDatabase() {
-                return localDataSources.getAllTvShows();
+            protected LiveData<PagedList<TVShowsEntity>> loadFromDatabase() {
+                PagedList.Config config = new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(4)
+                        .setPageSize(4)
+                        .build();
+
+                return new LivePagedListBuilder<>(localDataSources.getAllTvShows(), config).build();
             }
 
             @Override
-            protected boolean shouldFetch(List<TVShowsEntity> data) {
+            protected boolean shouldFetch(PagedList<TVShowsEntity> data) {
                 return (data == null) || (data.size() == 0);
             }
 
@@ -177,13 +189,25 @@ public class ContentRepository implements ContentDataSource {
     }
 
     @Override
-    public LiveData<List<MoviesEntity>> getFavoriteMovies() {
-        return localDataSources.getMoviesFavorite();
+    public LiveData<PagedList<MoviesEntity>> getFavoriteMovies() {
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build();
+
+        return new LivePagedListBuilder<>(localDataSources.getMoviesFavorite(), config).build();
     }
 
     @Override
-    public LiveData<List<TVShowsEntity>> getFavoriteTvShows() {
-        return localDataSources.getTvShowsFavorite();
+    public LiveData<PagedList<TVShowsEntity>> getFavoriteTvShows() {
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build();
+
+        return new LivePagedListBuilder<>(localDataSources.getTvShowsFavorite(), config).build();
     }
 
     @Override

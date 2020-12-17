@@ -1,6 +1,7 @@
 package com.xalam.movietvshowrepo.data.source.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
@@ -24,11 +25,11 @@ public class LocalDataSources {
         return INSTANCE;
     }
 
-    public LiveData<List<MoviesEntity>> getAllMovies() {
+    public DataSource.Factory<Integer, MoviesEntity> getAllMovies() {
         return mContentDao.getAllMovies();
     }
 
-    public LiveData<List<TVShowsEntity>> getAllTvShows() {
+    public DataSource.Factory<Integer, TVShowsEntity> getAllTvShows() {
         return mContentDao.getAllTvShows();
     }
 
@@ -40,11 +41,11 @@ public class LocalDataSources {
         return mContentDao.getTvShowsId(id);
     }
 
-    public LiveData<List<MoviesEntity>> getMoviesFavorite() {
+    public DataSource.Factory<Integer, MoviesEntity> getMoviesFavorite() {
         return mContentDao.getMoviesFavorite();
     }
 
-    public LiveData<List<TVShowsEntity>> getTvShowsFavorite() {
+    public DataSource.Factory<Integer, TVShowsEntity> getTvShowsFavorite() {
         return mContentDao.getTvShowsFavorite();
     }
 

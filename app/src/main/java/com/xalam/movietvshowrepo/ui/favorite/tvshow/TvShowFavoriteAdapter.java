@@ -1,5 +1,6 @@
 package com.xalam.movietvshowrepo.ui.favorite.tvshow;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,17 +20,25 @@ import com.xalam.movietvshowrepo.R;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
 import com.xalam.movietvshowrepo.ui.detail.DetailActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+public class TvShowFavoriteAdapter extends PagedListAdapter<TVShowsEntity, TvShowFavoriteAdapter.TvShowViewHolder> {
 
-public class TvShowFavoriteAdapter extends RecyclerView.Adapter<TvShowFavoriteAdapter.TvShowViewHolder> {
-    private List<TVShowsEntity> listTvShows = new ArrayList<>();
-
-    void setListTvShows(List<TVShowsEntity> listTvShows) {
-        if (listTvShows == null) return;
-        this.listTvShows.clear();
-        this.listTvShows.addAll(listTvShows);
+    TvShowFavoriteAdapter() {
+        super(DIFF_CALLBACK);
     }
+
+    private static DiffUtil.ItemCallback<TVShowsEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TVShowsEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull TVShowsEntity oldItem, @NonNull TVShowsEntity newItem) {
+                    return oldItem.getTvId().equals(newItem.getTvId());
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull TVShowsEntity oldItem, @NonNull TVShowsEntity newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
 
     @NonNull
     @Override
@@ -38,13 +49,12 @@ public class TvShowFavoriteAdapter extends RecyclerView.Adapter<TvShowFavoriteAd
 
     @Override
     public void onBindViewHolder(@NonNull TvShowFavoriteAdapter.TvShowViewHolder holder, int position) {
-        TVShowsEntity tvShowsEntity = listTvShows.get(position);
+        TVShowsEntity tvShowsEntity = getItem(position);
         holder.bind(tvShowsEntity);
     }
 
-    @Override
-    public int getItemCount() {
-        return listTvShows.size();
+    public TVShowsEntity getSwiped(int swipedPosition) {
+        return getItem(swipedPosition);
     }
 
     public class TvShowViewHolder extends RecyclerView.ViewHolder {

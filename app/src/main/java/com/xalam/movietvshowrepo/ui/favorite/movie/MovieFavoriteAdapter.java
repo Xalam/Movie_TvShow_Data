@@ -1,5 +1,6 @@
 package com.xalam.movietvshowrepo.ui.favorite.movie;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,18 +20,26 @@ import com.xalam.movietvshowrepo.R;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
 import com.xalam.movietvshowrepo.ui.detail.DetailActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MovieFavoriteAdapter extends PagedListAdapter<MoviesEntity, MovieFavoriteAdapter.MovieViewHolder> {
 
-public class MovieFavoriteAdapter extends RecyclerView.Adapter<MovieFavoriteAdapter.MovieViewHolder> {
+    MovieFavoriteAdapter() {
+        super(DIFF_CALLBACK);
 
-    private List<MoviesEntity> moviesEntityList = new ArrayList<>();
-
-    void setMoviesEntityList(List<MoviesEntity> moviesEntities) {
-        if (moviesEntities == null) return;
-        this.moviesEntityList.clear();
-        this.moviesEntityList.addAll(moviesEntities);
     }
+
+    private static DiffUtil.ItemCallback<MoviesEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<MoviesEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull MoviesEntity oldItem, @NonNull MoviesEntity newItem) {
+                    return oldItem.getMovieId().equals(newItem.getMovieId());
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull MoviesEntity oldItem, @NonNull MoviesEntity newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
 
     @NonNull
     @Override
@@ -39,13 +50,12 @@ public class MovieFavoriteAdapter extends RecyclerView.Adapter<MovieFavoriteAdap
 
     @Override
     public void onBindViewHolder(@NonNull MovieFavoriteAdapter.MovieViewHolder holder, int position) {
-        MoviesEntity moviesEntity = moviesEntityList.get(position);
+        MoviesEntity moviesEntity = getItem(position);
         holder.bind(moviesEntity);
     }
 
-    @Override
-    public int getItemCount() {
-        return moviesEntityList.size();
+    public MoviesEntity getSwiped(int swipedPosition) {
+        return getItem(swipedPosition);
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {

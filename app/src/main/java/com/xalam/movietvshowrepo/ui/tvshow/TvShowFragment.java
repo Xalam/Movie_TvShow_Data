@@ -45,8 +45,7 @@ public class TvShowFragment extends Fragment {
                             break;
                         case SUCCESS:
                             binding.progressTvShow.setVisibility(View.GONE);
-                            tvShowAdapter.setListTvShows(tvShows.data);
-                            tvShowAdapter.notifyDataSetChanged();
+                            tvShowAdapter.submitList(tvShows.data);
                             break;
                         case ERROR:
                             binding.progressTvShow.setVisibility(View.GONE);
