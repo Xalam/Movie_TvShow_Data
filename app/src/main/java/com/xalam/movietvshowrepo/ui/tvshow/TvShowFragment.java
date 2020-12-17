@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.xalam.movietvshowrepo.R;
 import com.xalam.movietvshowrepo.databinding.FragmentTvShowBinding;
 import com.xalam.movietvshowrepo.viewmodel.ViewModelFactory;
 
@@ -37,9 +39,22 @@ public class TvShowFragment extends Fragment {
 
             TvShowAdapter tvShowAdapter = new TvShowAdapter();
             tvShowViewModel.getTvShows().observe(this, tvShows -> {
-                binding.progressTvShow.setVisibility(View.GONE);
-                tvShowAdapter.setListTvShows(tvShows);
-                tvShowAdapter.notifyDataSetChanged();
+                if (tvShows != null) {
+                    switch (tvShows.status) {
+                        case LOADING:
+                            binding.progressTvShow.setVisibility(View.VISIBLE);
+                            break;
+                        case SUCCESS:
+                            binding.progressTvShow.setVisibility(View.GONE);
+                            tvShowAdapter.setListTvShows(tvShows.data);
+                            tvShowAdapter.notifyDataSetChanged();
+                            break;
+                        case ERROR:
+                            binding.progressTvShow.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
             });
 
             binding.rvTvShow.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.xalam.movietvshowrepo.R;
 import com.xalam.movietvshowrepo.databinding.FragmentMovieBinding;
 import com.xalam.movietvshowrepo.viewmodel.ViewModelFactory;
 
@@ -37,9 +39,22 @@ public class MovieFragment extends Fragment {
 
             MovieAdapter movieAdapter = new MovieAdapter();
             movieViewModel.getMovies().observe(this, movies -> {
-                binding.progressMovie.setVisibility(View.GONE);
-                movieAdapter.setListMovies(movies);
-                movieAdapter.notifyDataSetChanged();
+                if (movies != null) {
+                    switch (movies.status) {
+                        case LOADING:
+                            binding.progressMovie.setVisibility(View.VISIBLE);
+                            break;
+                        case SUCCESS:
+                            binding.progressMovie.setVisibility(View.GONE);
+                            movieAdapter.setListMovies(movies.data);
+                            movieAdapter.notifyDataSetChanged();
+                            break;
+                        case ERROR:
+                            binding.progressMovie.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
             });
 
             binding.rvMovie.setLayoutManager(new LinearLayoutManager(getActivity()));

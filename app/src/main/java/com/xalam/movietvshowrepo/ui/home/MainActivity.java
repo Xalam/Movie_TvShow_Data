@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     final Fragment fragmentMovie = new MovieFragment();
     final Fragment fragmentTvShow = new TvShowFragment();
     final Fragment fragmentFavorite = new FavoriteFragment();
-    Fragment active = fragmentMovie;
     private ActivityMainBinding binding;
     private Menu menu;
     private MenuItem menuItem;
@@ -43,26 +42,23 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_main, fragmentFavorite, "3").hide(fragmentFavorite).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_main, fragmentTvShow, "2").hide(fragmentTvShow).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_main, fragmentMovie, "1").commit();
         bottomNav();
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavMain.getLayoutParams();
         layoutParams.setBehavior(new BottomNavBehavior());
     }
 
-    private void loadFragment(Fragment active, Fragment fragment) {
+    private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .hide(active)
-                .show(fragment)
+                .replace(R.id.frame_main, fragment)
                 .commit();
     }
 
     private void bottomNav() {
         menu = binding.bottomNavMain.getMenu();
         menuItem = menu.getItem(0);
+        loadFragment(fragmentMovie);
         menuItem.setChecked(true);
 
         binding.bottomNavMain.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,20 +68,17 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menu_movie:
                         menuItem = menu.getItem(0);
                         menuItem.setChecked(true);
-                        loadFragment(active, fragmentMovie);
-                        active = fragmentMovie;
+                        loadFragment(fragmentMovie);
                         break;
                     case R.id.menu_tv_show:
                         menuItem = menu.getItem(1);
                         menuItem.setChecked(true);
-                        loadFragment(active, fragmentTvShow);
-                        active = fragmentTvShow;
+                        loadFragment(fragmentTvShow);
                         break;
                     case R.id.menu_favorite:
                         menuItem = menu.getItem(2);
                         menuItem.setChecked(true);
-                        loadFragment(active, fragmentFavorite);
-                        active = fragmentFavorite;
+                        loadFragment(fragmentFavorite);
                         break;
                 }
                 return false;

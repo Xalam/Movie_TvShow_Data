@@ -2,6 +2,8 @@ package com.xalam.movietvshowrepo.ui.detail;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -38,17 +40,50 @@ public class DetailActivity extends AppCompatActivity {
         if (extras != null) {
             String contentId = extras.getString(EXTRA_ID);
             String category = extras.getString(EXTRA_CATEGORY);
-            binding.progressDetail.setVisibility(View.VISIBLE);
 
             detailViewModel.setSelectedContent(contentId);
 
             assert category != null;
             if (category.equals(getString(R.string.cat_movie))) {
                 getSupportActionBar().setTitle(R.string.movies);
-                detailViewModel.getMovie().observe(this, this::detailMovie);
+                detailViewModel.movie.observe(this, moviesEntityResource -> {
+                    if (moviesEntityResource != null) {
+                        switch (moviesEntityResource.status) {
+                            case LOADING:
+                                binding.progressDetail.setVisibility(View.VISIBLE);
+                                break;
+                            case SUCCESS:
+                                if (moviesEntityResource.data != null) {
+                                    detailMovie(moviesEntityResource.data);
+                                }
+                                break;
+                            case ERROR:
+                                binding.progressDetail.setVisibility(View.GONE);
+                                Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
             } else {
                 getSupportActionBar().setTitle(R.string.tv_shows);
-                detailViewModel.getTvShow().observe(this, this::detailTvShow);
+                detailViewModel.tvShow.observe(this, tvShowsEntityResource -> {
+                    if (tvShowsEntityResource != null) {
+                        switch (tvShowsEntityResource.status) {
+                            case LOADING:
+                                binding.progressDetail.setVisibility(View.VISIBLE);
+                                break;
+                            case SUCCESS:
+                                if (tvShowsEntityResource.data != null) {
+                                    detailTvShow(tvShowsEntityResource.data);
+                                }
+                                break;
+                            case ERROR:
+                                binding.progressDetail.setVisibility(View.GONE);
+                                Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
             }
         }
     }

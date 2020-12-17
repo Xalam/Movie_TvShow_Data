@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
+import com.xalam.movietvshowrepo.vo.Resource;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class MovieViewModel extends ViewModel {
         this.contentRepository = contentRepository;
     }
 
-    public LiveData<List<MoviesEntity>> getMovies() {
+    public LiveData<Resource<List<MoviesEntity>>> getMovies() {
         return contentRepository.getAllMovies();
     }
 }

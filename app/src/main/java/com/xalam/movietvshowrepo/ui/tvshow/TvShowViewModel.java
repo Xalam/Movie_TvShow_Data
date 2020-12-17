@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
+import com.xalam.movietvshowrepo.vo.Resource;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class TvShowViewModel extends ViewModel {
         this.contentRepository = contentRepository;
     }
 
-    public LiveData<List<TVShowsEntity>> getTvShows() {
+    public LiveData<Resource<List<TVShowsEntity>>> getTvShows() {
         return contentRepository.getAllTvShows();
     }
 }
