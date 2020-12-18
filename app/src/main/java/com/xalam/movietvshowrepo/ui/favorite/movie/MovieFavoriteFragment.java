@@ -48,7 +48,11 @@ public class MovieFavoriteFragment extends Fragment {
             binding.progressMovieFavorite.setVisibility(View.VISIBLE);
             movieFavoriteViewModel.getMovieFavorites().observe(this, movies -> {
                 binding.progressMovieFavorite.setVisibility(View.GONE);
-                adapter.submitList(movies);
+                if (movies.size() == 0) {
+                    binding.linImageMovie.setVisibility(View.VISIBLE);
+                } else {
+                    adapter.submitList(movies);
+                }
             });
 
             binding.rvMovieFavorite.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -74,7 +78,9 @@ public class MovieFavoriteFragment extends Fragment {
                 int swipedPosition = viewHolder.getAdapterPosition();
                 MoviesEntity moviesEntity = adapter.getSwiped(swipedPosition);
                 movieFavoriteViewModel.setMovieFavorite(moviesEntity);
-                Snackbar snackbar = Snackbar.make(getView(), R.string.message_delete, Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(binding.placeSnackbarMovie, R.string.message_delete, Snackbar.LENGTH_LONG);
+                snackbar.getView().setBackground(getContext().getDrawable(R.drawable.bg_snackbar));
+                snackbar.getView().setElevation(0f);
                 snackbar.setAction(R.string.message_undo, v -> movieFavoriteViewModel.setMovieFavorite(moviesEntity));
                 snackbar.show();
             }

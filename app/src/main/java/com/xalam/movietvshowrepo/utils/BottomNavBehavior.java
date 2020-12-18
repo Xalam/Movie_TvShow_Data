@@ -1,5 +1,6 @@
 package com.xalam.movietvshowrepo.utils;
 
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class BottomNavBehavior extends CoordinatorLayout.Behavior<BottomNavigationView> {
     private int height;
@@ -34,7 +36,7 @@ public class BottomNavBehavior extends CoordinatorLayout.Behavior<BottomNavigati
         }
     }
 
-    private void slideUp(BottomNavigationView child) {
+    public void slideUp(BottomNavigationView child) {
         child.clearAnimation();
         child.animate().translationY(0).setDuration(150);
     }

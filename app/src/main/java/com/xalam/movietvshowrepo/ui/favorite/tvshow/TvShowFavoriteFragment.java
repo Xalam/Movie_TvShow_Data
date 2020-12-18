@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -49,7 +50,11 @@ public class TvShowFavoriteFragment extends Fragment {
             binding.progressTvShowFavorite.setVisibility(View.VISIBLE);
             tvShowFavoriteViewModel.getTvShowFavorites().observe(this, tvShows -> {
                 binding.progressTvShowFavorite.setVisibility(View.GONE);
-                adapter.submitList(tvShows);
+                if (tvShows.size() == 0) {
+                    binding.linImageTvShow.setVisibility(View.VISIBLE);
+                } else {
+                    adapter.submitList(tvShows);
+                }
             });
 
             binding.rvTvShowFavorite.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,7 +80,9 @@ public class TvShowFavoriteFragment extends Fragment {
                 int swipedPosition = viewHolder.getAdapterPosition();
                 TVShowsEntity tvShowsEntity = adapter.getSwiped(swipedPosition);
                 tvShowFavoriteViewModel.setTvShowFavorite(tvShowsEntity);
-                Snackbar snackbar = Snackbar.make(getView(), R.string.message_delete, Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(binding.placeSnackbarTvShow, R.string.message_delete, Snackbar.LENGTH_LONG);
+                snackbar.getView().setBackground(getContext().getDrawable(R.drawable.bg_snackbar));
+                snackbar.getView().setElevation(0f);
                 snackbar.setAction(R.string.message_undo, v -> tvShowFavoriteViewModel.setTvShowFavorite(tvShowsEntity));
                 snackbar.show();
             }

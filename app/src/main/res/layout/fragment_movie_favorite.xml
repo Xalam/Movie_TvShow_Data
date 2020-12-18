@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.favorite.movie.MovieFavoriteFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -17,10 +17,43 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/items_movie" />
 
+    <LinearLayout
+        android:id="@+id/lin_image_movie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="-80dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:src="@drawable/img_people" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-25dp"
+            android:fontFamily="@font/poppins_light"
+            android:gravity="center"
+            android:text="@string/oops_movie"
+            android:textSize="15sp" />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progress_movie_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:visibility="gone" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/place_snackbar_movie"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="80dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private Menu menu;
     private MenuItem menuItem;
     private boolean doubleTapParam = false;
+    private CoordinatorLayout.LayoutParams layoutParams;
+    private BottomNavBehavior bottomNavBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav();
 
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavMain.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavBehavior());
+        layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavMain.getLayoutParams();
+        bottomNavBehavior = new BottomNavBehavior();
+        layoutParams.setBehavior(bottomNavBehavior);
     }
 
     private void loadFragment(Fragment fragment) {
@@ -90,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNavBehavior.slideUp(binding.bottomNavMain);
     }
 
     @Override

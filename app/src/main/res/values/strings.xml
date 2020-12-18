@@ -18,4 +18,6 @@
     <string name="error">There is an error</string>
     <string name="message_delete">Item deleted</string>
     <string name="message_undo">Undo</string>
+    <string name="oops_movie">Oops…there is no favorite movie</string>
+    <string name="oops_tv_show">Oops…there is no favorite tv show</string>
 </resources>
