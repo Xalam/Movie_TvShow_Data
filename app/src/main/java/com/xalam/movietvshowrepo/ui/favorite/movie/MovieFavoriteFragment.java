@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,32 +24,6 @@ public class MovieFavoriteFragment extends Fragment {
     private FragmentMovieFavoriteBinding binding;
     private MovieFavoriteAdapter adapter;
     private MovieFavoriteViewModel movieFavoriteViewModel;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentMovieFavoriteBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        itemTouchHelper.attachToRecyclerView(binding.rvMovieFavorite);
-
-        if (getActivity() != null) {
-            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
-            movieFavoriteViewModel = new ViewModelProvider(this, factory).get(MovieFavoriteViewModel.class);
-
-            adapter = new MovieFavoriteAdapter();
-
-            binding.progressMovieFavorite.setVisibility(View.VISIBLE);
-            movieFavorite();
-        }
-    }
-
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -76,6 +49,31 @@ public class MovieFavoriteFragment extends Fragment {
             }
         }
     });
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        binding = FragmentMovieFavoriteBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        itemTouchHelper.attachToRecyclerView(binding.rvMovieFavorite);
+
+        if (getActivity() != null) {
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
+            movieFavoriteViewModel = new ViewModelProvider(this, factory).get(MovieFavoriteViewModel.class);
+
+            adapter = new MovieFavoriteAdapter();
+
+            binding.progressMovieFavorite.setVisibility(View.VISIBLE);
+            movieFavorite();
+        }
+    }
 
     private void movieFavorite() {
         movieFavoriteViewModel.getMovieFavorites().observe(this, movies -> {

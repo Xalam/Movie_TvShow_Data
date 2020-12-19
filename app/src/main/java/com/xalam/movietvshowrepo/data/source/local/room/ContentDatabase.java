@@ -13,8 +13,6 @@ import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
         version = 1,
         exportSchema = false)
 public abstract class ContentDatabase extends RoomDatabase {
-    public abstract ContentDao contentDao();
-
     private static volatile ContentDatabase INSTANCE;
 
     public static ContentDatabase getInstance(Context context) {
@@ -30,4 +28,6 @@ public abstract class ContentDatabase extends RoomDatabase {
 
         return INSTANCE;
     }
+
+    public abstract ContentDao contentDao();
 }

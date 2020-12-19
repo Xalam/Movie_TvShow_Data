@@ -15,7 +15,6 @@
     <string name="cat_movie">movie</string>
     <string name="favorites">Favorites</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tap_again">Press again to exit</string>
     <string name="error">There is an error</string>
     <string name="message_delete">Item deleted</string>

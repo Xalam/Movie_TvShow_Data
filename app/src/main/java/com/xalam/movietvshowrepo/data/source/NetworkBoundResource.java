@@ -36,7 +36,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract boolean shouldFetch(ResultType data);
 
-    protected  abstract LiveData<ApiResponse<RequestType>> createCall();
+    protected abstract LiveData<ApiResponse<RequestType>> createCall();
 
     protected abstract void saveCallResult(RequestType data);
 

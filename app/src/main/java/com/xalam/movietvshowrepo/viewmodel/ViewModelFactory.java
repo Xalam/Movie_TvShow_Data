@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
-import com.xalam.movietvshowrepo.ui.detail.DetailViewModel;
 import com.xalam.movietvshowrepo.di.Injection;
+import com.xalam.movietvshowrepo.ui.detail.DetailViewModel;
 import com.xalam.movietvshowrepo.ui.favorite.movie.MovieFavoriteViewModel;
 import com.xalam.movietvshowrepo.ui.favorite.tvshow.TvShowFavoriteViewModel;
 import com.xalam.movietvshowrepo.ui.movie.MovieViewModel;

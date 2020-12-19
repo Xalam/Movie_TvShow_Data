@@ -7,8 +7,6 @@ import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
 import com.xalam.movietvshowrepo.vo.Resource;
 
-import java.util.List;
-
 public interface ContentDataSource {
     LiveData<Resource<PagedList<MoviesEntity>>> getAllMovies();
 
@@ -18,7 +16,7 @@ public interface ContentDataSource {
 
     LiveData<Resource<TVShowsEntity>> getTvShowId(String id);
 
-    LiveData<PagedList<MoviesEntity>>  getFavoriteMovies();
+    LiveData<PagedList<MoviesEntity>> getFavoriteMovies();
 
     LiveData<PagedList<TVShowsEntity>> getFavoriteTvShows();
 

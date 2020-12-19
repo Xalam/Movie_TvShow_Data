@@ -22,10 +22,6 @@ import com.xalam.movietvshowrepo.ui.detail.DetailActivity;
 
 public class TvShowFavoriteAdapter extends PagedListAdapter<TVShowsEntity, TvShowFavoriteAdapter.TvShowViewHolder> {
 
-    TvShowFavoriteAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static DiffUtil.ItemCallback<TVShowsEntity> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<TVShowsEntity>() {
                 @Override
@@ -39,6 +35,10 @@ public class TvShowFavoriteAdapter extends PagedListAdapter<TVShowsEntity, TvSho
                     return oldItem.equals(newItem);
                 }
             };
+
+    TvShowFavoriteAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @NonNull
     @Override
