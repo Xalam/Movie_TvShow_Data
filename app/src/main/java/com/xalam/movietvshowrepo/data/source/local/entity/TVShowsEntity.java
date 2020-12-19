@@ -42,7 +42,7 @@ public class TVShowsEntity {
     @ColumnInfo(name = "favorite")
     private boolean favorite = false;
 
-    public TVShowsEntity(String tvId, String title, String year, String date, String genre, String duration, int imagePath, String userScore, String description, String category) {
+    public TVShowsEntity(String tvId, String title, String year, String date, String genre, String duration, int imagePath, String userScore, String description, String category, Boolean favorite) {
         this.tvId = tvId;
         this.title = title;
         this.year = year;
@@ -53,6 +53,9 @@ public class TVShowsEntity {
         this.userScore = userScore;
         this.description = description;
         this.category = category;
+        if (favorite != null) {
+            this.favorite = favorite;
+        }
     }
 
     public String getTvId() {

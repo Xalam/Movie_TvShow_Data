@@ -79,7 +79,8 @@ public class ContentRepository implements ContentDataSource {
                             response.getImagePath(),
                             response.getUserScore(),
                             response.getDescription(),
-                            response.getCategory());
+                            response.getCategory(),
+                            false);
 
                     moviesEntityList.add(moviesEntity);
                 }
@@ -127,7 +128,8 @@ public class ContentRepository implements ContentDataSource {
                             response.getImagePath(),
                             response.getUserScore(),
                             response.getDescription(),
-                            response.getCategory());
+                            response.getCategory(),
+                            false);
 
                     tvShowList.add(tvShowsEntity);
                 }

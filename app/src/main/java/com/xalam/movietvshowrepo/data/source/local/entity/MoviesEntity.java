@@ -42,7 +42,7 @@ public class MoviesEntity {
     @ColumnInfo(name = "favorite")
     private boolean favorite = false;
 
-    public MoviesEntity(String movieId, String title, String year, String date, String genre, String duration, int imagePath, String userScore, String description, String category) {
+    public MoviesEntity(String movieId, String title, String year, String date, String genre, String duration, int imagePath, String userScore, String description, String category, Boolean favorite) {
         this.movieId = movieId;
         this.title = title;
         this.year = year;
@@ -53,6 +53,9 @@ public class MoviesEntity {
         this.userScore = userScore;
         this.description = description;
         this.category = category;
+        if (favorite != null) {
+            this.favorite = favorite;
+        }
     }
 
     public String getMovieId() {
