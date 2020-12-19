@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,18 +47,7 @@ public class MovieFavoriteFragment extends Fragment {
             adapter = new MovieFavoriteAdapter();
 
             binding.progressMovieFavorite.setVisibility(View.VISIBLE);
-            movieFavoriteViewModel.getMovieFavorites().observe(this, movies -> {
-                binding.progressMovieFavorite.setVisibility(View.GONE);
-                if (movies.size() == 0) {
-                    binding.linImageMovie.setVisibility(View.VISIBLE);
-                } else {
-                    adapter.submitList(movies);
-                }
-            });
-
-            binding.rvMovieFavorite.setLayoutManager(new LinearLayoutManager(getActivity()));
-            binding.rvMovieFavorite.setHasFixedSize(true);
-            binding.rvMovieFavorite.setAdapter(adapter);
+            movieFavorite();
         }
     }
 
@@ -87,9 +77,31 @@ public class MovieFavoriteFragment extends Fragment {
         }
     });
 
+    private void movieFavorite() {
+        movieFavoriteViewModel.getMovieFavorites().observe(this, movies -> {
+            binding.progressMovieFavorite.setVisibility(View.GONE);
+            if (movies.size() == 0) {
+                adapter.submitList(null);
+                binding.linImageMovie.setVisibility(View.VISIBLE);
+            } else {
+                adapter.submitList(movies);
+            }
+        });
+
+        binding.rvMovieFavorite.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvMovieFavorite.setHasFixedSize(true);
+        binding.rvMovieFavorite.setAdapter(adapter);
+    }
+
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        movieFavorite();
     }
 }

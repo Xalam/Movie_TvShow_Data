@@ -1,19 +1,17 @@
 package com.xalam.movietvshowrepo.ui.favorite.tvshow;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.xalam.movietvshowrepo.R;
@@ -26,43 +24,6 @@ public class TvShowFavoriteFragment extends Fragment {
     private FragmentTvShowFavoriteBinding binding;
     private TvShowFavoriteAdapter adapter;
     private TvShowFavoriteViewModel tvShowFavoriteViewModel;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentTvShowFavoriteBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        itemTouchHelper.attachToRecyclerView(binding.rvTvShowFavorite);
-
-        if (getActivity() != null) {
-            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
-            tvShowFavoriteViewModel = new ViewModelProvider(this, factory).get(TvShowFavoriteViewModel.class);
-
-            adapter = new TvShowFavoriteAdapter();
-
-            binding.progressTvShowFavorite.setVisibility(View.VISIBLE);
-            tvShowFavoriteViewModel.getTvShowFavorites().observe(this, tvShows -> {
-                binding.progressTvShowFavorite.setVisibility(View.GONE);
-                if (tvShows.size() == 0) {
-                    binding.linImageTvShow.setVisibility(View.VISIBLE);
-                } else {
-                    adapter.submitList(tvShows);
-                }
-            });
-
-            binding.rvTvShowFavorite.setLayoutManager(new LinearLayoutManager(getActivity()));
-            binding.rvTvShowFavorite.setHasFixedSize(true);
-            binding.rvTvShowFavorite.setAdapter(adapter);
-        }
-    }
-
     private ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -90,8 +51,55 @@ public class TvShowFavoriteFragment extends Fragment {
     });
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        binding = FragmentTvShowFavoriteBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        itemTouchHelper.attachToRecyclerView(binding.rvTvShowFavorite);
+
+        if (getActivity() != null) {
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
+            tvShowFavoriteViewModel = new ViewModelProvider(this, factory).get(TvShowFavoriteViewModel.class);
+
+            adapter = new TvShowFavoriteAdapter();
+
+            binding.progressTvShowFavorite.setVisibility(View.VISIBLE);
+            tvShowFavorite();
+        }
+    }
+
+    private void tvShowFavorite() {
+        tvShowFavoriteViewModel.getTvShowFavorites().observe(this, tvShows -> {
+            binding.progressTvShowFavorite.setVisibility(View.GONE);
+            if (tvShows.size() == 0) {
+                adapter.submitList(null);
+                binding.linImageTvShow.setVisibility(View.VISIBLE);
+            } else {
+                adapter.submitList(tvShows);
+            }
+        });
+
+        binding.rvTvShowFavorite.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvTvShowFavorite.setHasFixedSize(true);
+        binding.rvTvShowFavorite.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tvShowFavorite();
     }
 }

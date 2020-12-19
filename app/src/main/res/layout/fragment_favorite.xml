@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="@string/favorites"
+                    android:text="@string/list_favorites"
                     android:textColor="@android:color/white"
                     android:textSize="19sp" />
             </LinearLayout>

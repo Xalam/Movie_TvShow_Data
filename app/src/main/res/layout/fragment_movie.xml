@@ -26,7 +26,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="@string/movies"
+                    android:text="@string/list_movies"
                     android:textColor="@android:color/white"
                     android:textSize="19sp" />
             </LinearLayout>

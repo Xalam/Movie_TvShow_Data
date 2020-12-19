@@ -20,7 +20,6 @@
         </activity>
         <activity
             android:name="com.xalam.movietvshowrepo.ui.detail.DetailActivity"
-            android:parentActivityName="com.xalam.movietvshowrepo.ui.home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Movies TV Shows</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="list_movies">List of Movie</string>
+    <string name="list_tv_shows">List of TV Show</string>
+    <string name="list_favorites">List of Favorite</string>
     <string name="movies">Movies</string>
     <string name="tv_shows">TV Shows</string>
     <string name="title">Title</string>

@@ -19,9 +19,8 @@ import com.xalam.movietvshowrepo.viewmodel.ViewModelFactory;
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_ID = "extra_id";
     public static final String EXTRA_CATEGORY = "extra_category";
-
-    private ActivityDetailBinding binding;
     DetailViewModel detailViewModel;
+    private ActivityDetailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +31,13 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbarDetail);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        binding.toolbarDetail.setNavigationIcon(R.drawable.ic_chevron_left);
+        binding.toolbarDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ViewModelFactory factory = ViewModelFactory.getInstance(this);
         detailViewModel = new ViewModelProvider(this, factory).get(DetailViewModel.class);
@@ -47,7 +50,7 @@ public class DetailActivity extends AppCompatActivity {
 
             assert category != null;
             if (category.equals(getString(R.string.cat_movie))) {
-                getSupportActionBar().setTitle(R.string.movies);
+                binding.tvToolbarDetail.setText(R.string.movies);
                 detailViewModel.movie.observe(this, moviesEntityResource -> {
                     if (moviesEntityResource != null) {
                         switch (moviesEntityResource.status) {
@@ -69,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                getSupportActionBar().setTitle(R.string.tv_shows);
+                binding.tvToolbarDetail.setText(R.string.tv_shows);
                 detailViewModel.tvShow.observe(this, tvShowsEntityResource -> {
                     if (tvShowsEntityResource != null) {
                         switch (tvShowsEntityResource.status) {
