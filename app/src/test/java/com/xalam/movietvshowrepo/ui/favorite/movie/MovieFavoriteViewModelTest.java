@@ -1,4 +1,4 @@
-package com.xalam.movietvshowrepo.ui.movie;
+package com.xalam.movietvshowrepo.ui.favorite.movie;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
@@ -7,7 +7,6 @@ import androidx.paging.PagedList;
 
 import com.xalam.movietvshowrepo.data.source.ContentRepository;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
-import com.xalam.movietvshowrepo.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,40 +23,38 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MovieViewModelTest {
+public class MovieFavoriteViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-    private MovieViewModel movieViewModel;
-
+    private MovieFavoriteViewModel movieFavoriteViewModel;
     @Mock
     private ContentRepository contentRepository;
 
     @Mock
-    private Observer<Resource<PagedList<MoviesEntity>>> observer;
+    private Observer<PagedList<MoviesEntity>> observer;
 
     @Mock
     private PagedList<MoviesEntity> pagedList;
 
     @Before
     public void setUp() {
-        movieViewModel = new MovieViewModel(contentRepository);
+        movieFavoriteViewModel = new MovieFavoriteViewModel(contentRepository);
     }
 
     @Test
-    public void getMovies() {
-        Resource<PagedList<MoviesEntity>> dummyMovies = Resource.success(pagedList);
-        when(dummyMovies.data.size()).thenReturn(11);
-        MutableLiveData<Resource<PagedList<MoviesEntity>>> movies = new MutableLiveData<>();
+    public void getFavoriteMovie() {
+        PagedList<MoviesEntity> dummyMovies = pagedList;
+        when(dummyMovies.size()).thenReturn(11);
+        MutableLiveData<PagedList<MoviesEntity>> movies = new MutableLiveData<>();
         movies.setValue(dummyMovies);
 
-        when(contentRepository.getAllMovies()).thenReturn(movies);
-        List<MoviesEntity> moviesEntities = movieViewModel.getMovies().getValue().data;
-        verify(contentRepository).getAllMovies();
+        when(contentRepository.getFavoriteMovies()).thenReturn(movies);
+        List<MoviesEntity> moviesEntities = movieFavoriteViewModel.getMovieFavorites().getValue();
+        verify(contentRepository).getFavoriteMovies();
         assertNotNull(moviesEntities);
         assertEquals(11, moviesEntities.size());
 
-        movieViewModel.getMovies().observeForever(observer);
+        movieFavoriteViewModel.getMovieFavorites().observeForever(observer);
         verify(observer).onChanged(dummyMovies);
     }
-
 }

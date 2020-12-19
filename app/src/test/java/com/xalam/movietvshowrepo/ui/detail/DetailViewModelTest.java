@@ -8,6 +8,7 @@ import com.xalam.movietvshowrepo.data.source.ContentRepository;
 import com.xalam.movietvshowrepo.data.source.DataContent;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
+import com.xalam.movietvshowrepo.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,8 +17,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,14 +29,15 @@ public class DetailViewModelTest {
     private TVShowsEntity dummyTvShow = DataContent.generateTVShows().get(0);
     private String movieId = dummyMovie.getMovieId();
     private String tvShowId = dummyTvShow.getTvId();
+
     @Mock
     private ContentRepository contentRepository;
 
     @Mock
-    private Observer<TVShowsEntity> tvShowsObserver;
+    private Observer<Resource<TVShowsEntity>> tvShowsObserver;
 
     @Mock
-    private Observer<MoviesEntity> moviesObserver;
+    private Observer<Resource<MoviesEntity>> moviesObserver;
 
     @Before
     public void setUp() {
@@ -45,50 +45,28 @@ public class DetailViewModelTest {
     }
 
     @Test
-    public void getMovie() {
+    public void getDetailMovie() {
         detailViewModel.setSelectedContent(movieId);
-        MutableLiveData<MoviesEntity> movie = new MutableLiveData<>();
-        movie.setValue(dummyMovie);
-        when(contentRepository.getDetailMovies(movieId)).thenReturn(movie);
-        MoviesEntity moviesEntity = detailViewModel.getMovie().getValue();
-        verify(contentRepository).getDetailMovies(movieId);
-        assertNotNull(moviesEntity);
-        assertEquals(dummyMovie.getMovieId(), moviesEntity.getMovieId());
-        assertEquals(dummyMovie.getDate(), moviesEntity.getDate());
-        assertEquals(dummyMovie.getCategory(), moviesEntity.getCategory());
-        assertEquals(dummyMovie.getDuration(), moviesEntity.getDuration());
-        assertEquals(dummyMovie.getUserScore(), moviesEntity.getUserScore());
-        assertEquals(dummyMovie.getImagePath(), moviesEntity.getImagePath());
-        assertEquals(dummyMovie.getGenre(), moviesEntity.getGenre());
-        assertEquals(dummyMovie.getTitle(), moviesEntity.getTitle());
-        assertEquals(dummyMovie.getDescription(), moviesEntity.getDescription());
-        assertEquals(dummyMovie.getYear(), moviesEntity.getYear());
+        Resource<MoviesEntity> moviesEntityResource = Resource.success(DataContent.generateMovies().get(0));
+        MutableLiveData<Resource<MoviesEntity>> movieEntity = new MutableLiveData<>();
+        movieEntity.setValue(moviesEntityResource);
 
-        detailViewModel.getMovie().observeForever(moviesObserver);
-        verify(moviesObserver).onChanged(dummyMovie);
+        when(contentRepository.getMovieId(movieId)).thenReturn(movieEntity);
+
+        detailViewModel.movie.observeForever(moviesObserver);
+        verify(moviesObserver).onChanged(moviesEntityResource);
     }
 
     @Test
-    public void getTvShows() {
+    public void getDetailTvShow() {
         detailViewModel.setSelectedContent(tvShowId);
-        MutableLiveData<TVShowsEntity> tvShow = new MutableLiveData<>();
-        tvShow.setValue(dummyTvShow);
-        when(contentRepository.getDetailTvShows(tvShowId)).thenReturn(tvShow);
-        TVShowsEntity tvShowsEntity = detailViewModel.getTvShow().getValue();
-        verify(contentRepository).getDetailTvShows(tvShowId);
-        assertNotNull(tvShowsEntity);
-        assertEquals(dummyTvShow.getTvId(), tvShowsEntity.getTvId());
-        assertEquals(dummyTvShow.getDate(), tvShowsEntity.getDate());
-        assertEquals(dummyTvShow.getCategory(), tvShowsEntity.getCategory());
-        assertEquals(dummyTvShow.getDuration(), tvShowsEntity.getDuration());
-        assertEquals(dummyTvShow.getUserScore(), tvShowsEntity.getUserScore());
-        assertEquals(dummyTvShow.getImagePath(), tvShowsEntity.getImagePath());
-        assertEquals(dummyTvShow.getGenre(), tvShowsEntity.getGenre());
-        assertEquals(dummyTvShow.getTitle(), tvShowsEntity.getTitle());
-        assertEquals(dummyTvShow.getDescription(), tvShowsEntity.getDescription());
-        assertEquals(dummyTvShow.getYear(), tvShowsEntity.getYear());
+        Resource<TVShowsEntity> tvShowsEntityResource = Resource.success(DataContent.generateTVShows().get(0));
+        MutableLiveData<Resource<TVShowsEntity>> tvShowEntity = new MutableLiveData<>();
+        tvShowEntity.setValue(tvShowsEntityResource);
 
-        detailViewModel.getTvShow().observeForever(tvShowsObserver);
-        verify(tvShowsObserver).onChanged(dummyTvShow);
+        when(contentRepository.getTvShowId(tvShowId)).thenReturn(tvShowEntity);
+
+        detailViewModel.tvShow.observeForever(tvShowsObserver);
+        verify(tvShowsObserver).onChanged(tvShowsEntityResource);
     }
 }

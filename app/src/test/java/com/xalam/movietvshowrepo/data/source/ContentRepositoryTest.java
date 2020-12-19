@@ -1,13 +1,20 @@
 package com.xalam.movietvshowrepo.data.source;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 
+import com.xalam.movietvshowrepo.data.source.local.LocalDataSources;
 import com.xalam.movietvshowrepo.data.source.local.entity.MoviesEntity;
 import com.xalam.movietvshowrepo.data.source.local.entity.TVShowsEntity;
 import com.xalam.movietvshowrepo.data.source.remote.RemoteDataSources;
 import com.xalam.movietvshowrepo.data.source.remote.response.MoviesResponse;
 import com.xalam.movietvshowrepo.data.source.remote.response.TvShowsResponse;
+import com.xalam.movietvshowrepo.utils.AppExecutors;
 import com.xalam.movietvshowrepo.utils.LiveDataTestUtil;
+import com.xalam.movietvshowrepo.utils.PagedListUtil;
+import com.xalam.movietvshowrepo.vo.Resource;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,9 +24,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ContentRepositoryTest {
 
@@ -27,7 +34,9 @@ public class ContentRepositoryTest {
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     private RemoteDataSources remoteDataSources = Mockito.mock(RemoteDataSources.class);
-    private FakeContentRepository contentRepository = new FakeContentRepository(remoteDataSources);
+    private LocalDataSources localDataSources = Mockito.mock(LocalDataSources.class);
+    private AppExecutors appExecutors = Mockito.mock(AppExecutors.class);
+    private FakeContentRepository contentRepository = new FakeContentRepository(remoteDataSources, localDataSources, appExecutors);
 
     private List<MoviesResponse> moviesResponses = DataContent.generateRemoteMovies();
     private List<TvShowsResponse> tvShowsResponses = DataContent.generateRemoteTVShows();
@@ -37,72 +46,99 @@ public class ContentRepositoryTest {
 
     @Test
     public void getAllMovies() {
-        doAnswer(invocation -> {
-            ((RemoteDataSources.LoadMoviesCallback) invocation.getArguments()[0]).onAllMoviesReceived(moviesResponses);
-            return null;
-        }).when(remoteDataSources).getAllMovies(any(RemoteDataSources.LoadMoviesCallback.class));
-        List<MoviesEntity> moviesEntities = LiveDataTestUtil.getValue(contentRepository.getAllMovies());
-        verify(remoteDataSources).getAllMovies(any(RemoteDataSources.LoadMoviesCallback.class));
-        assertNotNull(moviesEntities);
-        assertEquals(moviesResponses.size(), moviesEntities.size());
+        DataSource.Factory<Integer, MoviesEntity> dataSourceFactory = mock(DataSource.Factory.class);
+        when(localDataSources.getAllMovies()).thenReturn(dataSourceFactory);
+        contentRepository.getAllMovies();
+
+        Resource<PagedList<MoviesEntity>> moviesEntities = Resource.success(PagedListUtil.mockPagedList(DataContent.generateMovies()));
+        verify(localDataSources).getAllMovies();
+        assertNotNull(moviesEntities.data);
+        assertEquals(moviesResponses.size(), moviesEntities.data.size());
     }
 
     @Test
     public void getAllTvShows() {
-        doAnswer(invocation -> {
-            ((RemoteDataSources.LoadTvShowsCallback) invocation.getArguments()[0]).onAllTvShowsReceived(tvShowsResponses);
-            return null;
-        }).when(remoteDataSources).getAllTvShows(any(RemoteDataSources.LoadTvShowsCallback.class));
-        List<TVShowsEntity> tvShowsEntities = LiveDataTestUtil.getValue(contentRepository.getAllTvShows());
-        verify(remoteDataSources).getAllTvShows(any(RemoteDataSources.LoadTvShowsCallback.class));
-        assertNotNull(tvShowsEntities);
-        assertEquals(tvShowsResponses.size(), tvShowsEntities.size());
+        DataSource.Factory<Integer, TVShowsEntity> dataSourceFactory = mock(DataSource.Factory.class);
+        when(localDataSources.getAllTvShows()).thenReturn(dataSourceFactory);
+        contentRepository.getAllTvShows();
+
+        Resource<PagedList<TVShowsEntity>> tvShowEntities = Resource.success(PagedListUtil.mockPagedList(DataContent.generateTVShows()));
+        verify(localDataSources).getAllTvShows();
+        assertNotNull(tvShowEntities.data);
+        assertEquals(tvShowsResponses.size(), tvShowEntities.data.size());
     }
 
     @Test
     public void getDetailMovie() {
-        doAnswer(invocation -> {
-            ((RemoteDataSources.LoadMoviesCallback) invocation.getArguments()[0]).onAllMoviesReceived(moviesResponses);
-            return null;
-        }).when(remoteDataSources).getAllMovies(any(RemoteDataSources.LoadMoviesCallback.class));
+        MutableLiveData<MoviesEntity> moviesEntity = new MutableLiveData<>();
+        moviesEntity.setValue(DataContent.generateMovies().get(0));
 
-        MoviesEntity moviesEntity = LiveDataTestUtil.getValue(contentRepository.getDetailMovies(movieId));
+        when(localDataSources.getMoviesId(movieId)).thenReturn(moviesEntity);
+        Resource<MoviesEntity> moviesEntityResource = LiveDataTestUtil.getValue(contentRepository.getMovieId(movieId));
+        verify(localDataSources).getMoviesId(movieId);
 
-        verify(remoteDataSources).getAllMovies(any(RemoteDataSources.LoadMoviesCallback.class));
+        MoviesResponse response = moviesResponses.get(0);
+        MoviesEntity result = moviesEntityResource.data;
 
         assertNotNull(moviesEntity);
-        assertEquals(moviesResponses.get(0).getMovieId(), moviesEntity.getMovieId());
-        assertEquals(moviesResponses.get(0).getDate(), moviesEntity.getDate());
-        assertEquals(moviesResponses.get(0).getCategory(), moviesEntity.getCategory());
-        assertEquals(moviesResponses.get(0).getDuration(), moviesEntity.getDuration());
-        assertEquals(moviesResponses.get(0).getUserScore(), moviesEntity.getUserScore());
-        assertEquals(moviesResponses.get(0).getImagePath(), moviesEntity.getImagePath());
-        assertEquals(moviesResponses.get(0).getGenre(), moviesEntity.getGenre());
-        assertEquals(moviesResponses.get(0).getTitle(), moviesEntity.getTitle());
-        assertEquals(moviesResponses.get(0).getDescription(), moviesEntity.getDescription());
-        assertEquals(moviesResponses.get(0).getYear(), moviesEntity.getYear());
+        assertEquals(response.getMovieId(), result.getMovieId());
+        assertEquals(response.getDate(), result.getDate());
+        assertEquals(response.getCategory(), result.getCategory());
+        assertEquals(response.getDuration(), result.getDuration());
+        assertEquals(response.getUserScore(), result.getUserScore());
+        assertEquals(response.getImagePath(), result.getImagePath());
+        assertEquals(response.getGenre(), result.getGenre());
+        assertEquals(response.getTitle(), result.getTitle());
+        assertEquals(response.getDescription(), result.getDescription());
+        assertEquals(response.getYear(), result.getYear());
     }
 
     @Test
     public void getDetailTvShow() {
-        doAnswer(invocation -> {
-            ((RemoteDataSources.LoadTvShowsCallback) invocation.getArguments()[0]).onAllTvShowsReceived(tvShowsResponses);
-            return null;
-        }).when(remoteDataSources).getAllTvShows(any(RemoteDataSources.LoadTvShowsCallback.class));
+        MutableLiveData<TVShowsEntity> tvShowsEntity = new MutableLiveData<>();
+        tvShowsEntity.setValue(DataContent.generateTVShows().get(0));
 
-        TVShowsEntity tvShowsEntity = LiveDataTestUtil.getValue(contentRepository.getDetailTvShows(tvShowId));
+        when(localDataSources.getTvShowsId(tvShowId)).thenReturn(tvShowsEntity);
+        Resource<TVShowsEntity> tvShowsEntityResource = LiveDataTestUtil.getValue(contentRepository.getTvShowId(tvShowId));
+        verify(localDataSources).getTvShowsId(tvShowId);
 
-        verify(remoteDataSources).getAllTvShows(any(RemoteDataSources.LoadTvShowsCallback.class));
+        TvShowsResponse response = tvShowsResponses.get(0);
+        TVShowsEntity result = tvShowsEntityResource.data;
 
-        assertEquals(tvShowsResponses.get(0).getTvId(), tvShowsEntity.getTvId());
-        assertEquals(tvShowsResponses.get(0).getDate(), tvShowsEntity.getDate());
-        assertEquals(tvShowsResponses.get(0).getCategory(), tvShowsEntity.getCategory());
-        assertEquals(tvShowsResponses.get(0).getDuration(), tvShowsEntity.getDuration());
-        assertEquals(tvShowsResponses.get(0).getUserScore(), tvShowsEntity.getUserScore());
-        assertEquals(tvShowsResponses.get(0).getImagePath(), tvShowsEntity.getImagePath());
-        assertEquals(tvShowsResponses.get(0).getGenre(), tvShowsEntity.getGenre());
-        assertEquals(tvShowsResponses.get(0).getTitle(), tvShowsEntity.getTitle());
-        assertEquals(tvShowsResponses.get(0).getDescription(), tvShowsEntity.getDescription());
-        assertEquals(tvShowsResponses.get(0).getYear(), tvShowsEntity.getYear());
+        assertNotNull(tvShowsEntity);
+        assertEquals(response.getTvId(), result.getTvId());
+        assertEquals(response.getDate(), result.getDate());
+        assertEquals(response.getCategory(), result.getCategory());
+        assertEquals(response.getDuration(), result.getDuration());
+        assertEquals(response.getUserScore(), result.getUserScore());
+        assertEquals(response.getImagePath(), result.getImagePath());
+        assertEquals(response.getGenre(), result.getGenre());
+        assertEquals(response.getTitle(), result.getTitle());
+        assertEquals(response.getDescription(), result.getDescription());
+        assertEquals(response.getYear(), result.getYear());
+    }
+
+    @Test
+    public void getFavoriteMovies() {
+        DataSource.Factory<Integer, MoviesEntity> dataSourceFactory = mock(DataSource.Factory.class);
+        when(localDataSources.getMoviesFavorite()).thenReturn(dataSourceFactory);
+        contentRepository.getFavoriteMovies();
+
+        Resource<PagedList<MoviesEntity>> moviesEntity = Resource.success(PagedListUtil.mockPagedList(DataContent.generateMovies()));
+        verify(localDataSources).getMoviesFavorite();
+        assertNotNull(moviesEntity);
+        assertEquals(moviesResponses.size(), moviesEntity.data.size());
+    }
+
+    @Test
+    public void getFavoriteTvShows() {
+        DataSource.Factory<Integer, TVShowsEntity> dataSourceFactory = mock(DataSource.Factory.class);
+        when(localDataSources.getTvShowsFavorite()).thenReturn(dataSourceFactory);
+        contentRepository.getFavoriteTvShows();
+
+        Resource<PagedList<TVShowsEntity>> tvShowsEntity = Resource.success(PagedListUtil.mockPagedList(DataContent.generateTVShows()));
+        verify(localDataSources).getTvShowsFavorite();
+        assertNotNull(tvShowsEntity);
+        assertEquals(tvShowsResponses.size(), tvShowsEntity.data.size());
     }
 }
