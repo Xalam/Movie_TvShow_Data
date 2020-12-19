@@ -97,17 +97,11 @@ public class MainActivityTest {
         onView(withId(R.id.menu_favorite)).perform(click());
         onView(withId(R.id.rv_movie_favorite)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_movie_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.tv_title_detail)).check(matches(withText(String.format("%s (%s)", dummyMovie.get(0).getTitle(), dummyMovie.get(0).getYear()))));
         onView(withId(R.id.tv_date_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_date_detail)).check(matches(withText(dummyMovie.get(0).getDate())));
         onView(withId(R.id.tv_genre_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_genre_detail)).check(matches(withText(dummyMovie.get(0).getGenre())));
         onView(withId(R.id.tv_duration_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_duration_detail)).check(matches(withText(dummyMovie.get(0).getDuration())));
         onView(withId(R.id.tv_score_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_score_detail)).check(matches(withText(dummyMovie.get(0).getUserScore())));
         onView(withId(R.id.tv_description_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_description_detail)).check(matches(withText(dummyMovie.get(0).getDescription())));
         onView(withId(R.id.btn_fav_detail)).perform(click());
         onView(isRoot()).perform(pressBack());
     }
@@ -122,17 +116,11 @@ public class MainActivityTest {
         onView(withText("TV SHOWS")).perform(click());
         onView(withId(R.id.rv_tv_show_favorite)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_tv_show_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.tv_title_detail)).check(matches(withText(String.format("%s (%s)", dummyTvShow.get(0).getTitle(), dummyTvShow.get(0).getYear()))));
         onView(withId(R.id.tv_date_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_date_detail)).check(matches(withText(dummyTvShow.get(0).getDate())));
         onView(withId(R.id.tv_genre_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_genre_detail)).check(matches(withText(dummyTvShow.get(0).getGenre())));
         onView(withId(R.id.tv_duration_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_duration_detail)).check(matches(withText(dummyTvShow.get(0).getDuration())));
         onView(withId(R.id.tv_score_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_score_detail)).check(matches(withText(dummyTvShow.get(0).getUserScore())));
         onView(withId(R.id.tv_description_detail)).check(matches(isDisplayed()));
-        onView(withId(R.id.tv_description_detail)).check(matches(withText(dummyTvShow.get(0).getDescription())));
         onView(withId(R.id.btn_fav_detail)).perform(click());
         onView(isRoot()).perform(pressBack());
     }
